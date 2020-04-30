@@ -1,0 +1,104 @@
+# skillet preamble information used by panhandler
+# ---------------------------------------------------------------------
+# unique snippet name
+name: EDL Builder
+# label used for menu selection
+label: EDL Builder
+description: Creates External Dynamic Lists to a local MineMeld server.
+
+# type of device configuration
+# common types are panorama, panos, and template
+# https://github.com/PaloAltoNetworks/panhandler/blob/develop/docs/metadata_configuration.rst
+type: panos
+# preload static or default-based templates
+extends:
+
+# grouping of like snippets for dynamic menu creation in panhandler
+labels:
+  collection:
+    - Rice Cooker
+
+# ---------------------------------------------------------------------
+# end of preamble section
+
+# variables section
+# ---------------------------------------------------------------------
+# variables used in the configuration templates
+# type_hint defines the form field used by panhandler
+# type_hints can be text, ip_address, or dropdown
+variables:
+  - name: BAD_IP_FEED
+    description: URL of local MineMeld server bad IP list 
+    default: https://edls/feeds/IPv4-Feed
+    type_hint: text
+  - name: BAD_DOMAIN_FEED
+    description: URL of local MineMeld server bad IP list 
+    default: https://edls/feeds/Domain-Feed
+    type_hint: text    
+  - name: BAD_URL_FEED
+    description: URL of local MineMeld server bad IP list 
+    default: https://edls/feeds/URL-Feed
+    type_hint: text
+
+# ---------------------------------------------------------------------
+# end of variables section
+
+# snippets section
+# ---------------------------------------------------------------------
+# snippets used for api configuration including xpath and element as file name
+# files will load in the order listed
+# NOTE: The following snippets are auto-generated and ordered automatically.
+# Changing the content of the snippet may be necessary, but do NOT change the order
+
+# There is a variable called snippets that we can use to auto-generate this section for us
+snippets:
+
+  - name: ip-edl
+    xpath: /config/devices/entry[@name="localhost.localdomain"]/vsys/entry[@name="vsys1"]/external-list
+    element: |-
+        <entry name="MineMeld-Bad-IP-List">
+                      <type>
+                        <ip>
+                          <recurring>
+                            <five-minute/>
+                          </recurring>
+                          <certificate-profile>None</certificate-profile>
+                          <description>List of malicious IP addresses from my local MineMeld server.</description>
+                          <url>{{ BAD_IP_FEED }}</url>
+                        </ip>
+                      </type>
+                    </entry>
+
+  - name: domain-edl
+    xpath: /config/devices/entry[@name="localhost.localdomain"]/vsys/entry[@name="vsys1"]/external-list
+    element: |-
+        <entry name="MineMeld-Bad-Domain-List">
+                      <type>
+                        <domain>
+                          <recurring>
+                            <hourly/>
+                          </recurring>
+                          <url>{{ BAD_DOMAIN_FEED }}</url>
+                          <description>List of malicious Domains from my local MineMeld server.</description>
+                        </domain>
+                      </type>
+                    </entry>
+
+  - name: url-edl
+    xpath: /config/devices/entry[@name="localhost.localdomain"]/vsys/entry[@name="vsys1"]/external-list
+    element: |-
+        <entry name="MineMeld-Bad-URL-List">
+                      <type>
+                        <url>
+                          <recurring>
+                            <hourly/>
+                          </recurring>
+                          <description>List of malicious URLs from my local MineMeld server.</description>
+                          <url>{{ BAD_URL_FEED }}</url>
+                        </url>
+                      </type>
+                    </entry>
+
+
+# ---------------------------------------------------------------------
+# end of snippets section
