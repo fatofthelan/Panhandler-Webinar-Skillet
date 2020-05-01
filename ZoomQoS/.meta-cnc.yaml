@@ -1,0 +1,328 @@
+# skillet preamble information used by panhandler
+# ---------------------------------------------------------------------
+# unique snippet name
+name: ZoomQoS Skillet
+# label used for menu selection
+label: ZoomQoS Skillet
+description: Builds QoS profiles and policy to prioritize Zoom audio and video over other traffic to provide a better user experience. 
+
+# type of device configuration
+# common types are panorama, panos, and template
+# https://github.com/PaloAltoNetworks/panhandler/blob/develop/docs/metadata_configuration.rst
+type: panos
+# preload static or default-based templates
+extends:
+
+# grouping of like snippets for dynamic menu creation in panhandler
+labels:
+  collection:
+    - Rice Cooker
+
+# ---------------------------------------------------------------------
+# end of preamble section
+
+# variables section
+# ---------------------------------------------------------------------
+# variables used in the configuration templates
+# type_hint defines the form field used by panhandler
+# type_hints can be text, ip_address, or dropdown
+variables:
+
+  - name: UPLOAD_SPEED
+    description: Upload Speed
+    default: 15
+    type_hint: text     
+  - name: DOWNLOAD_SPEED
+    description: Download Speed
+    default: 250
+    type_hint: text    
+
+
+  - name: INTERNET_INTERFACE
+    description: Internet Interface
+    default: ethernet1/1
+    type_hint: dropdown
+    dd_list:
+      - key: ethernet1/1
+        value: ethernet1/1
+      - key: ethernet1/2
+        value: ethernet1/2       
+      - key: ethernet1/3
+        value: ethernet1/3
+      - key: ethernet1/4
+        value: ethernet1/4
+      - key: ethernet1/5
+        value: ethernet1/5
+      - key: ethernet1/6
+        value: ethernet1/6      
+      - key: ethernet1/7
+        value: ethernet1/7
+      - key: ethernet1/8
+        value: ethernet1/8
+
+  - name: INTERNAL_INTERFACE
+    description: Internal Interface
+    default: ethernet1/2
+    type_hint: dropdown
+    dd_list:
+      - key: ethernet1/1
+        value: ethernet1/1
+      - key: ethernet1/2
+        value: ethernet1/2       
+      - key: ethernet1/3
+        value: ethernet1/3
+      - key: ethernet1/4
+        value: ethernet1/4
+      - key: ethernet1/5
+        value: ethernet1/5
+      - key: ethernet1/6
+        value: ethernet1/6      
+      - key: ethernet1/7
+        value: ethernet1/7
+      - key: ethernet1/8
+        value: ethernet1/8
+
+# ---------------------------------------------------------------------
+# end of variables section
+
+# snippets section
+# ---------------------------------------------------------------------
+# snippets used for api configuration including xpath and element as file name
+# files will load in the order listed
+# NOTE: The following snippets are auto-generated and ordered automatically.
+# Changing the content of the snippet may be necessary, but do NOT change the order
+
+# There is a variable called snippets that we can use to auto-generate this section for us
+snippets:
+
+  - name: entry-138442
+    xpath: /config/devices/entry[@name="localhost.localdomain"]/network/qos/profile
+    element: |-
+        <entry name="Outbound-QoS">
+                      <class-bandwidth-type>
+                        <mbps>
+                          <class>
+                            <entry name="class1">
+                              <class-bandwidth>
+                                <egress-max>0</egress-max>
+                                <egress-guaranteed>0</egress-guaranteed>
+                              </class-bandwidth>
+                              <priority>real-time</priority>
+                            </entry>
+                            <entry name="class2">
+                              <class-bandwidth>
+                                <egress-max>0</egress-max>
+                                <egress-guaranteed>0</egress-guaranteed>
+                              </class-bandwidth>
+                              <priority>high</priority>
+                            </entry>
+                            <entry name="class3">
+                              <class-bandwidth>
+                                <egress-max>0</egress-max>
+                                <egress-guaranteed>0</egress-guaranteed>
+                              </class-bandwidth>
+                              <priority>high</priority>
+                            </entry>
+                            <entry name="class4">
+                              <class-bandwidth>
+                                <egress-max>0</egress-max>
+                                <egress-guaranteed>0</egress-guaranteed>
+                              </class-bandwidth>
+                              <priority>medium</priority>
+                            </entry>
+                            <entry name="class5">
+                              <class-bandwidth>
+                                <egress-max>0</egress-max>
+                                <egress-guaranteed>0</egress-guaranteed>
+                              </class-bandwidth>
+                              <priority>medium</priority>
+                            </entry>
+                            <entry name="class6">
+                              <class-bandwidth>
+                                <egress-max>0</egress-max>
+                                <egress-guaranteed>0</egress-guaranteed>
+                              </class-bandwidth>
+                              <priority>low</priority>
+                            </entry>
+                            <entry name="class7">
+                              <class-bandwidth>
+                                <egress-max>0</egress-max>
+                                <egress-guaranteed>0</egress-guaranteed>
+                              </class-bandwidth>
+                              <priority>low</priority>
+                            </entry>
+                            <entry name="class8">
+                              <class-bandwidth>
+                                <egress-max>0</egress-max>
+                                <egress-guaranteed>0</egress-guaranteed>
+                              </class-bandwidth>
+                              <priority>low</priority>
+                            </entry>
+                          </class>
+                        </mbps>
+                      </class-bandwidth-type>
+                      <aggregate-bandwidth>
+                        <egress-max>{{ UPLOAD_SPEED }}</egress-max>
+                      </aggregate-bandwidth>
+                    </entry>
+
+  - name: entry-877094
+    xpath: /config/devices/entry[@name="localhost.localdomain"]/network/qos/profile
+    element: |-
+        <entry name="Inbound-QoS">
+                      <class-bandwidth-type>
+                        <mbps>
+                          <class>
+                            <entry name="class1">
+                              <class-bandwidth>
+                                <egress-max>0</egress-max>
+                                <egress-guaranteed>0</egress-guaranteed>
+                              </class-bandwidth>
+                              <priority>real-time</priority>
+                            </entry>
+                            <entry name="class2">
+                              <class-bandwidth>
+                                <egress-max>0</egress-max>
+                                <egress-guaranteed>0</egress-guaranteed>
+                              </class-bandwidth>
+                              <priority>high</priority>
+                            </entry>
+                            <entry name="class3">
+                              <class-bandwidth>
+                                <egress-max>0</egress-max>
+                                <egress-guaranteed>0</egress-guaranteed>
+                              </class-bandwidth>
+                              <priority>high</priority>
+                            </entry>
+                            <entry name="class4">
+                              <class-bandwidth>
+                                <egress-max>0</egress-max>
+                                <egress-guaranteed>0</egress-guaranteed>
+                              </class-bandwidth>
+                              <priority>medium</priority>
+                            </entry>
+                            <entry name="class5">
+                              <class-bandwidth>
+                                <egress-max>0</egress-max>
+                                <egress-guaranteed>0</egress-guaranteed>
+                              </class-bandwidth>
+                              <priority>medium</priority>
+                            </entry>
+                            <entry name="class6">
+                              <class-bandwidth>
+                                <egress-max>0</egress-max>
+                                <egress-guaranteed>0</egress-guaranteed>
+                              </class-bandwidth>
+                              <priority>low</priority>
+                            </entry>
+                            <entry name="class7">
+                              <class-bandwidth>
+                                <egress-max>0</egress-max>
+                                <egress-guaranteed>0</egress-guaranteed>
+                              </class-bandwidth>
+                              <priority>low</priority>
+                            </entry>
+                            <entry name="class8">
+                              <class-bandwidth>
+                                <egress-max>0</egress-max>
+                                <egress-guaranteed>0</egress-guaranteed>
+                              </class-bandwidth>
+                              <priority>low</priority>
+                            </entry>
+                          </class>
+                        </mbps>
+                      </class-bandwidth-type>
+                      <aggregate-bandwidth>
+                        <egress-max>{{ DOWNLOAD_SPEED }}</egress-max>
+                      </aggregate-bandwidth>
+                    </entry>
+
+  - name: interface-701376
+    xpath: /config/devices/entry[@name="localhost.localdomain"]/network/qos
+    element: |-
+        <interface>
+                    <entry name="{{ INTERNET_INTERFACE }}">
+                      <regular-traffic>
+                        <groups>
+                          <entry name="regular-traffic-group"/>
+                        </groups>
+                        <default-group>
+                          <qos-profile>Outbound-QoS</qos-profile>
+                        </default-group>
+                      </regular-traffic>
+                      <tunnel-traffic>
+                        <groups>
+                          <entry name="tunnel-traffic-group"/>
+                        </groups>
+                        <default-group>
+                          <per-tunnel-qos-profile>Outbound-QoS</per-tunnel-qos-profile>
+                        </default-group>
+                      </tunnel-traffic>
+                    </entry>
+                    <entry name="{{ INTERNAL_INTERFACE }}">
+                      <regular-traffic>
+                        <groups>
+                          <entry name="regular-traffic-group"/>
+                        </groups>
+                        <default-group>
+                          <qos-profile>Inbound-QoS</qos-profile>
+                        </default-group>
+                      </regular-traffic>
+                      <tunnel-traffic>
+                        <groups>
+                          <entry name="tunnel-traffic-group"/>
+                        </groups>
+                        <default-group>
+                          <per-tunnel-qos-profile>Inbound-QoS</per-tunnel-qos-profile>
+                        </default-group>
+                      </tunnel-traffic>
+                    </entry>
+                  </interface>
+
+  - name: qos-729735
+    xpath: /config/devices/entry[@name="localhost.localdomain"]/vsys/entry[@name="vsys1"]/rulebase
+    element: |-
+        <qos>
+                      <rules>
+                        <entry name="Zoom QoS Policy" uuid="093d33e7-0c66-4fb3-9432-ca3acf720197">
+                          <dscp-tos>
+                            <any/>
+                          </dscp-tos>
+                          <from>
+                            <member>any</member>
+                          </from>
+                          <to>
+                            <member>any</member>
+                          </to>
+                          <source>
+                            <member>any</member>
+                          </source>
+                          <destination>
+                            <member>any</member>
+                          </destination>
+                          <source-user>
+                            <member>any</member>
+                          </source-user>
+                          <category>
+                            <member>any</member>
+                          </category>
+                          <application>
+                            <member>http-audio</member>
+                            <member>http-video</member>
+                            <member>websocket</member>
+                            <member>zoom</member>
+                          </application>
+                          <service>
+                            <member>application-default</member>
+                          </service>
+                          <action>
+                            <class>1</class>
+                          </action>
+                          <description>This will prioritize Zoom traffic above other traffic to provide higher quality Zoom audio and video connections and help prevent cutouts.</description>
+                        </entry>
+                      </rules>
+                    </qos>
+
+
+# ---------------------------------------------------------------------
+# end of snippets section
