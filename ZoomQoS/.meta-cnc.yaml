@@ -4,7 +4,7 @@
 name: ZoomQoS Skillet
 # label used for menu selection
 label: ZoomQoS Skillet
-description: Builds QoS profiles and policy to prioritize Zoom audio and video over other traffic to provide a better user experience. 
+description: Builds QoS profiles and QoS policy to prioritize Zoom audio and video over other traffic to provide a better user experience. 
 
 # type of device configuration
 # common types are panorama, panos, and template
@@ -45,7 +45,7 @@ variables:
       - key: 9.1
         value: 9.1
       - key: Pre-9.1
-        value: Pre-9.1
+        value: Pre9.1
 
   - name: INTERNET_INTERFACE
     description: Internet Interface
@@ -104,10 +104,9 @@ variables:
 # There is a variable called snippets that we can use to auto-generate this section for us
 snippets:
 
-  - name: outbound-qos
+  - name: outbound-qos-panos-9.1
     xpath: /config/devices/entry[@name="localhost.localdomain"]/network/qos/profile
     element: |-
-      {% if PANOS_VERSION == "9.1" %}
         <entry name="Outbound-QoS">
                       <class-bandwidth-type>
                         <mbps>
@@ -175,76 +174,79 @@ snippets:
                         <egress-max>{{ UPLOAD_SPEED }}</egress-max>
                       </aggregate-bandwidth>
                     </entry>
-      {% else %}
-        <entry name="Outbound-QoS">
-                      <class>
-                        <entry name="class1">
-                          <class-bandwidth>
-                            <egress-max>0</egress-max>
-                            <egress-guaranteed>0</egress-guaranteed>
-                          </class-bandwidth>
-                          <priority>real-time</priority>
-                        </entry>
-                        <entry name="class2">
-                          <class-bandwidth>
-                            <egress-max>0</egress-max>
-                            <egress-guaranteed>0</egress-guaranteed>
-                          </class-bandwidth>
-                          <priority>high</priority>
-                        </entry>
-                        <entry name="class3">
-                          <class-bandwidth>
-                            <egress-max>0</egress-max>
-                            <egress-guaranteed>0</egress-guaranteed>
-                          </class-bandwidth>
-                          <priority>high</priority>
-                        </entry>
-                        <entry name="class4">
-                          <class-bandwidth>
-                            <egress-max>0</egress-max>
-                            <egress-guaranteed>0</egress-guaranteed>
-                          </class-bandwidth>
-                          <priority>medium</priority>
-                        </entry>
-                        <entry name="class5">
-                          <class-bandwidth>
-                            <egress-max>0</egress-max>
-                            <egress-guaranteed>0</egress-guaranteed>
-                          </class-bandwidth>
-                          <priority>medium</priority>
-                        </entry>
-                        <entry name="class6">
-                          <class-bandwidth>
-                            <egress-max>0</egress-max>
-                            <egress-guaranteed>0</egress-guaranteed>
-                          </class-bandwidth>
-                          <priority>low</priority>
-                        </entry>
-                        <entry name="class7">
-                          <class-bandwidth>
-                            <egress-max>0</egress-max>
-                            <egress-guaranteed>0</egress-guaranteed>
-                          </class-bandwidth>
-                          <priority>low</priority>
-                        </entry>
-                        <entry name="class8">
-                          <class-bandwidth>
-                            <egress-max>0</egress-max>
-                            <egress-guaranteed>0</egress-guaranteed>
-                          </class-bandwidth>
-                          <priority>low</priority>
-                        </entry>
-                      </class>
-                      <aggregate-bandwidth>
-                        <egress-max>{{ UPLOAD_SPEED }}</egress-max>
-                      </aggregate-bandwidth>
-                    </entry>
-      {% endif %}                    
+    when: PANOS_VERSION == '9.1'
 
-  - name: inbound-qos
+  - name: outbound-qos-pre-panos-9.1
     xpath: /config/devices/entry[@name="localhost.localdomain"]/network/qos/profile
     element: |-
-      {% if PANOS_VERSION == "9.1" %}
+        <entry name="Outbound-QoS">
+                      <class>
+                        <entry name="class1">
+                          <class-bandwidth>
+                            <egress-max>0</egress-max>
+                            <egress-guaranteed>0</egress-guaranteed>
+                          </class-bandwidth>
+                          <priority>real-time</priority>
+                        </entry>
+                        <entry name="class2">
+                          <class-bandwidth>
+                            <egress-max>0</egress-max>
+                            <egress-guaranteed>0</egress-guaranteed>
+                          </class-bandwidth>
+                          <priority>high</priority>
+                        </entry>
+                        <entry name="class3">
+                          <class-bandwidth>
+                            <egress-max>0</egress-max>
+                            <egress-guaranteed>0</egress-guaranteed>
+                          </class-bandwidth>
+                          <priority>high</priority>
+                        </entry>
+                        <entry name="class4">
+                          <class-bandwidth>
+                            <egress-max>0</egress-max>
+                            <egress-guaranteed>0</egress-guaranteed>
+                          </class-bandwidth>
+                          <priority>medium</priority>
+                        </entry>
+                        <entry name="class5">
+                          <class-bandwidth>
+                            <egress-max>0</egress-max>
+                            <egress-guaranteed>0</egress-guaranteed>
+                          </class-bandwidth>
+                          <priority>medium</priority>
+                        </entry>
+                        <entry name="class6">
+                          <class-bandwidth>
+                            <egress-max>0</egress-max>
+                            <egress-guaranteed>0</egress-guaranteed>
+                          </class-bandwidth>
+                          <priority>low</priority>
+                        </entry>
+                        <entry name="class7">
+                          <class-bandwidth>
+                            <egress-max>0</egress-max>
+                            <egress-guaranteed>0</egress-guaranteed>
+                          </class-bandwidth>
+                          <priority>low</priority>
+                        </entry>
+                        <entry name="class8">
+                          <class-bandwidth>
+                            <egress-max>0</egress-max>
+                            <egress-guaranteed>0</egress-guaranteed>
+                          </class-bandwidth>
+                          <priority>low</priority>
+                        </entry>
+                      </class>
+                      <aggregate-bandwidth>
+                        <egress-max>{{ UPLOAD_SPEED }}</egress-max>
+                      </aggregate-bandwidth>
+                    </entry>
+    when: PANOS_VERSION != '9.1'                  
+
+  - name: inbound-qos-panos-9.1
+    xpath: /config/devices/entry[@name="localhost.localdomain"]/network/qos/profile
+    element: |-
         <entry name="Inbound-QoS">
                       <class-bandwidth-type>
                         <mbps>
@@ -312,7 +314,11 @@ snippets:
                         <egress-max>{{ DOWNLOAD_SPEED }}</egress-max>
                       </aggregate-bandwidth>
                     </entry>
-      {% else %}  
+    when: PANOS_VERSION == '9.1'
+
+  - name: inbound-qos-pre-panos-9.1
+    xpath: /config/devices/entry[@name="localhost.localdomain"]/network/qos/profile
+    element: |- 
         <entry name="Inbound-QoS">
                       <class>
                         <entry name="class1">
@@ -376,7 +382,7 @@ snippets:
                         <egress-max>{{ DOWNLOAD_SPEED }}</egress-max>
                       </aggregate-bandwidth>
                     </entry>
-      {% endif %}                  
+    when: PANOS_VERSION != '9.1'               
 
   - name: interface-bindings
     xpath: /config/devices/entry[@name="localhost.localdomain"]/network/qos
