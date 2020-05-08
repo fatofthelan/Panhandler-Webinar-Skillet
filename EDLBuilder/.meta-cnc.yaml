@@ -47,7 +47,7 @@ variables:
 
   - name: BAD_URL_FEED
     description: URL of local MineMeld server bad URL list 
-    default: https://edls/feeds/URL-Feed
+    default: https://edls/feeds/URL-Feed?v=panosurl
     type_hint: text
   - name: BAD_URL_FEED_DESCRIPTION
     description: EDL Description  
